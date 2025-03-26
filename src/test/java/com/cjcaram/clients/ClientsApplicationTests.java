@@ -1,10 +1,10 @@
-package com.cjcaram.clientes;
+package com.cjcaram.clients;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ClientesApplicationTests {
+class ClientsApplicationTests {
 
 	@Test
 	void contextLoads() {
