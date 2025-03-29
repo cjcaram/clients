@@ -1,6 +1,6 @@
 package com.cjcaram.clients.controller;
 
-import com.cjcaram.clients.dto.ClientDto;
+import com.cjcaram.clients.model.ClientDto;
 import com.cjcaram.clients.entity.Client;
 import com.cjcaram.clients.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;

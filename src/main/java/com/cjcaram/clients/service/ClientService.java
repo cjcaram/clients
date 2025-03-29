@@ -1,6 +1,6 @@
 package com.cjcaram.clients.service;
 
-import com.cjcaram.clients.dto.ClientDto;
+import com.cjcaram.clients.model.ClientDto;
 import com.cjcaram.clients.entity.Client;
 import com.cjcaram.clients.exception.ClientNotFoundException;
 import com.cjcaram.clients.repository.ClientRepository;
