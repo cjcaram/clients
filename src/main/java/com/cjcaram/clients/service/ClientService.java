@@ -1,10 +1,12 @@
 package com.cjcaram.clients.service;
 
+import com.cjcaram.clients.dto.ClientDto;
 import com.cjcaram.clients.entity.Client;
 import com.cjcaram.clients.exception.ClientNotFoundException;
 import com.cjcaram.clients.repository.ClientRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +17,10 @@ import java.util.List;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final ModelMapper modelMapper;
 
-    public List<Client> listAll() {
-        return clientRepository.findAll();
+    public List<Client> listActives() {
+        return clientRepository.findByActiveTrue();
     }
 
     public Client findById(Long id) {
@@ -26,22 +29,30 @@ public class ClientService {
     }
 
     @Transactional
-    public Client saveClient(@Valid Client client) {
+    public Client saveClient(@Valid ClientDto clientDto) {
+        Client client = new Client();
+        modelMapper.map(clientDto, client);
         return clientRepository.save(client);
     }
 
     @Transactional
-    public Client updateClient(Long id, @Valid Client client) {
+    public Client updateClient(Long id, ClientDto clientToUpdate) {
         Client existentClient = findById(id);
-        Client updatedClient = Client.builder()
-                .id(existentClient.getId())
-                .name(client.getName() != null ? client.getName() : existentClient.getName())
-                .email(client.getEmail() != null ? client.getEmail() : existentClient.getEmail())
-                .birthdate(client.getBirthdate() != null ? client.getBirthdate() : existentClient.getBirthdate())
-                .active(existentClient.isActive())
+        modelMapper.map(clientToUpdate, existentClient);
+        return clientRepository.save(existentClient);
+    }
+
+    @Transactional
+    public Client patchClient(Long id, ClientDto clientDto) {
+        Client existentClient = findById(id);
+        ClientDto updatedClient = ClientDto.builder()
+                .name(clientDto.getName() != null ? clientDto.getName() : existentClient.getName())
+                .email(clientDto.getEmail() != null ? clientDto.getEmail() : existentClient.getEmail())
+                .birthdate(clientDto.getBirthdate() != null ? clientDto.getBirthdate() : existentClient.getBirthdate())
                 .build();
 
-        return clientRepository.save(updatedClient);
+        modelMapper.map(updatedClient, existentClient);
+        return clientRepository.save(existentClient);
     }
 
     @Transactional

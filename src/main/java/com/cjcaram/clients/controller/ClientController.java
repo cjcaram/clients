@@ -1,5 +1,6 @@
 package com.cjcaram.clients.controller;
 
+import com.cjcaram.clients.dto.ClientDto;
 import com.cjcaram.clients.entity.Client;
 import com.cjcaram.clients.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,7 @@ public class ClientController {
 
     @Operation(summary = "Create new client")
     @PostMapping
-    public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) {
+    public ResponseEntity<Client> createClient(@Valid @RequestBody ClientDto client) {
         Client newClient = clientService.saveClient(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(newClient);
     }
@@ -34,19 +35,22 @@ public class ClientController {
         return ResponseEntity.ok(client);
     }
 
+    // TODO: List should be post with SearchDto used as RequestBody
     @Operation(summary = "List all clients")
     @GetMapping
     public ResponseEntity<List<Client>> listAllClients() {
-        List<Client> clients = clientService.listAll();
+        List<Client> clients = clientService.listActives();
         return ResponseEntity.ok(clients);
     }
 
     @Operation(summary = "Update client by ID ID")
     @PutMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @Valid @RequestBody Client client) {
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @Valid @RequestBody ClientDto client) {
         Client updatedClient = clientService.updateClient(id, client);
         return ResponseEntity.ok(updatedClient);
     }
+
+    // TODO: PathMapping
 
     @Operation(summary = "Disable client by ID")
     @DeleteMapping("/{id}")
