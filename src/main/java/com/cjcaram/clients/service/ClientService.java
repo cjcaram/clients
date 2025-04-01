@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,10 @@ public class ClientService {
 
     public List<Client> listActives() {
         return clientRepository.findByActiveTrue();
+    }
+
+    public Set<Client> getClientsByIds(Set<Long> ids) {
+        return  clientRepository.findAllByIdIn(ids);
     }
 
     public Client findById(Long id) {

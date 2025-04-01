@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
@@ -13,4 +14,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Optional<Client> findByEmail(String email);
 
     List<Client> findByActiveTrue();
+
+    Set<Client> findAllByIdIn(Set<Long> ids);
 }

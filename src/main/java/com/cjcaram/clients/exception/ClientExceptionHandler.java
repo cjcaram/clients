@@ -13,6 +13,9 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: we can move to submodule the exception handling that is common between microservices using more generic
+//  messages and inheritance to customize
+
 @RestControllerAdvice
 public class ClientExceptionHandler {
 

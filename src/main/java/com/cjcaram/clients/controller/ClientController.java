@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Tag(name = "Client", description = "API used to manage client information")
 @RestController
@@ -43,7 +44,7 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
-    @Operation(summary = "Update client by ID ID")
+    @Operation(summary = "Update client by ID")
     @PutMapping("/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable Long id, @Valid @RequestBody ClientDto client) {
         Client updatedClient = clientService.updateClient(id, client);
@@ -52,10 +53,19 @@ public class ClientController {
 
     // TODO: PathMapping
 
+    // TODO: find byEmail
+
     @Operation(summary = "Disable client by ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> disableClientById(@PathVariable Long id) {
         clientService.disableClient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Get clients by IDs")
+    @PostMapping("/by-ids")
+    public ResponseEntity<Set<Client>> getClientsByIds(@RequestBody Set<Long> ids) {
+        Set<Client> clients = clientService.getClientsByIds(ids);
+        return ResponseEntity.ok(clients);
     }
 }
